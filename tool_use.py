@@ -6,6 +6,9 @@ load_dotenv()
 
 client = Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 
+video_url = input("Paste the YouTube URL: ")
+user_message = f"Make a note from this video: {video_url}"
+
 tool_definitions =[{
     "name": "fetch_transcript",
 
@@ -72,7 +75,7 @@ Where this applies to my projects / roadmap.
 ## Links
 - [[related-note]]
 """,
-    messages=[{"role": "user", "content": "Make a note from this video: https://www.youtube.com/watch?v=596vkrMPWWM"}]
+    messages=[{"role": "user", "content": user_message}]
 
 )
 
@@ -84,7 +87,7 @@ for block in response.content:
 
 url = tool_input["youtube_url"]              
 transcript = fetch_transcript(url)  
-messages=[{"role": "user", "content": "Make a note from this video: https://youtube.com/watch?v=abc"},
+messages=[{"role": "user", "content": user_message},
 {"role": "assistant", "content": response.content},
 {"role": "user", "content": [
     {"type": "tool_result", "tool_use_id": tool_id, "content": transcript}
